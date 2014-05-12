@@ -15,7 +15,7 @@ use ZfcUser\Options\UserServiceOptionsInterface;
 use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\EventManager;
 use Zend\EventManager\EventManagerAwareInterface;
-
+// FMC
 class HybridAuth extends AbstractAdapter implements ServiceManagerAwareInterface, EventManagerAwareInterface
 {
     /**
