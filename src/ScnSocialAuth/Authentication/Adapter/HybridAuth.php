@@ -410,7 +410,6 @@ class HybridAuth extends AbstractAdapter implements ServiceManagerAwareInterface
             return $localUser;
         }
 
-        var_dump($userProfile);
         
         $localUser = $this->instantiateLocalUser();
         $localUser->setDisplayName($userProfile->displayName)
