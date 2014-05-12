@@ -404,7 +404,6 @@ class HybridAuth extends AbstractAdapter implements ServiceManagerAwareInterface
         
         $userRole       = $entityManager->getRepository('FMCUser\Entity\Role')->findOneBy(array('roleId' => 'user'));
 
-
         $mapper = $this->getZfcUserMapper();
         if (false != ($localUser = $mapper->findByEmail($userProfile->emailVerified))) {
             return $localUser;
