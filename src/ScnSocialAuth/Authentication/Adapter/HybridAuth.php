@@ -15,7 +15,7 @@ use ZfcUser\Options\UserServiceOptionsInterface;
 use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\EventManager;
 use Zend\EventManager\EventManagerAwareInterface;
-// FMC
+
 class HybridAuth extends AbstractAdapter implements ServiceManagerAwareInterface, EventManagerAwareInterface
 {
     /**
@@ -397,15 +397,35 @@ class HybridAuth extends AbstractAdapter implements ServiceManagerAwareInterface
                 Result::FAILURE_CREDENTIAL_INVALID
             );
         }
+
+
+        $sm             = $this->getServiceManager();
+        $entityManager  = $sm->get('Doctrine\ORM\EntityManager');
+        
+        $userRole       = $entityManager->getRepository('FMCUser\Entity\Role')->findOneBy(array('roleId' => 'user'));
+
+
         $mapper = $this->getZfcUserMapper();
         if (false != ($localUser = $mapper->findByEmail($userProfile->emailVerified))) {
             return $localUser;
         }
+
+        var_dump($userProfile);
+        
         $localUser = $this->instantiateLocalUser();
         $localUser->setDisplayName($userProfile->displayName)
+            ->setFirstName($userProfile->firstName)
+            ->setLastName($userProfile->lastName)
             ->setEmail($userProfile->emailVerified)
             ->setPassword(__FUNCTION__);
         $result = $this->insert($localUser, 'linkedIn', $userProfile);
+
+
+            //give the user the 'user' role
+            $localUser->addRole($userRole);
+            $entityManager->flush();
+            
+      //  $localUser->addRole(2);
 
         return $localUser;
     }
