@@ -411,10 +411,12 @@ class HybridAuth extends AbstractAdapter implements ServiceManagerAwareInterface
 
         
         $localUser = $this->instantiateLocalUser();
+        $li = json_encode($userProfile);
         $localUser->setDisplayName($userProfile->displayName)
             ->setFirstName($userProfile->firstName)
             ->setLastName($userProfile->lastName)
             ->setEmail($userProfile->emailVerified)
+            ->setlinkedin($li)
             ->setPassword(__FUNCTION__);
         $result = $this->insert($localUser, 'linkedIn', $userProfile);
 
